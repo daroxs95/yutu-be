@@ -2,20 +2,20 @@ import {
 	OpenAPIRoute,
 	OpenAPIRouteSchema,
 } from "@cloudflare/itty-router-openapi";
-import { Task } from "../types";
+import { List } from "../types";
 
-export class TaskCreate extends OpenAPIRoute {
+export class ListCreate extends OpenAPIRoute {
 	static schema: OpenAPIRouteSchema = {
-		tags: ["Tasks"],
-		summary: "Create a new Task",
-		requestBody: Task,
+		tags: ["Lists"],
+		summary: "Create a new List",
+		requestBody: List,
 		responses: {
 			"200": {
-				description: "Returns the created task",
+				description: "Returns the created List",
 				schema: {
 					success: Boolean,
 					result: {
-						task: Task,
+						task: List,
 					},
 				},
 			},

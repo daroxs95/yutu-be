@@ -3,12 +3,12 @@ import {
 	OpenAPIRouteSchema,
 	Query,
 } from "@cloudflare/itty-router-openapi";
-import { Task } from "../types";
+import { List } from "../types";
 
-export class TaskList extends OpenAPIRoute {
+export class ListList extends OpenAPIRoute {
 	static schema: OpenAPIRouteSchema = {
-		tags: ["Tasks"],
-		summary: "List Tasks",
+		tags: ["Lists"],
+		summary: "List lists",
 		parameters: {
 			page: Query(Number, {
 				description: "Page number",
@@ -21,11 +21,11 @@ export class TaskList extends OpenAPIRoute {
 		},
 		responses: {
 			"200": {
-				description: "Returns a list of tasks",
+				description: "Returns a list of Lists",
 				schema: {
 					success: Boolean,
 					result: {
-						tasks: [Task],
+						tasks: [List],
 					},
 				},
 			},

@@ -1,6 +1,6 @@
 import { DateTime, Str } from "@cloudflare/itty-router-openapi";
 
-export const Task = {
+export const List = {
 	name: new Str({ example: "lorem" }),
 	slug: String,
 	description: new Str({ required: false }),

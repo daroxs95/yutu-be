@@ -3,15 +3,15 @@ import {
 	OpenAPIRouteSchema,
 	Path,
 } from "@cloudflare/itty-router-openapi";
-import { Task } from "../types";
+import { List } from "../types";
 
-export class TaskFetch extends OpenAPIRoute {
+export class ListFetch extends OpenAPIRoute {
 	static schema: OpenAPIRouteSchema = {
-		tags: ["Tasks"],
-		summary: "Get a single Task by slug",
+		tags: ["Lists"],
+		summary: "Get a single list by slug",
 		parameters: {
 			taskSlug: Path(String, {
-				description: "Task slug",
+				description: "List slug",
 			}),
 		},
 		responses: {
@@ -20,7 +20,7 @@ export class TaskFetch extends OpenAPIRoute {
 				schema: {
 					success: Boolean,
 					result: {
-						task: Task,
+						task: List,
 					},
 				},
 			},
