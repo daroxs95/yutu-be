@@ -4,6 +4,7 @@ export const Video = {
   name: new Str({example: "lorem"}),
   id: new Str({example: "lorem"}),
   url: String,
+  thumbnailUrl: String,
 };
 
 export const List = {
