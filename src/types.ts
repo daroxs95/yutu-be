@@ -2,6 +2,7 @@ import {Str, Arr} from "@cloudflare/itty-router-openapi";
 
 export const Video = {
   name: new Str({example: "lorem"}),
+  id: new Str({example: "lorem"}),
   url: String,
 };
 
