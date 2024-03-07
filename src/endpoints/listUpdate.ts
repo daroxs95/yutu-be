@@ -1,22 +1,22 @@
 import {
   OpenAPIRoute,
-  OpenAPIRouteSchema,
-  Path,
+  OpenAPIRouteSchema, Path,
 } from "@cloudflare/itty-router-openapi";
-import {List, ListType} from "../types";
+import {ListUpdate as ListUpdateRequest, List} from "../types";
 
-export class ListDelete extends OpenAPIRoute {
+export class ListUpdate extends OpenAPIRoute {
   static schema: OpenAPIRouteSchema = {
     tags: ["Lists"],
-    summary: "Delete a List",
+    summary: "Update a list by slug",
     parameters: {
       listSlug: Path(String, {
         description: "List slug",
       }),
     },
+    requestBody: ListUpdateRequest,
     responses: {
       "200": {
-        description: "Returns if the list was deleted successfully",
+        description: "Returns the updated List",
         schema: {
           success: Boolean,
           result: {
@@ -33,31 +33,25 @@ export class ListDelete extends OpenAPIRoute {
     context: any,
     data: Record<string, any>
   ) {
-    // Retrieve the validated slug
     const {listSlug} = data.params;
 
+    // Retrieve the validated request body
+    const listData = data.body;
+
     const lists = JSON.parse(await env.KV.get("lists"));
-    const listIndex = lists.findIndex((list: ListType) => list.slug === listSlug);
+    const listIndex = lists.findIndex((list: any) => list.slug === listSlug);
     if (listIndex === -1) {
       return {
         success: false,
         error: "List not found",
       };
     }
-    await env.KV.put("lists", JSON.stringify([...lists.slice(0, listIndex), ...lists.slice(listIndex + 1)]));
+    lists[listIndex] = {slug: listData.slug, ...listData};
+    await env.KV.put("lists", JSON.stringify([...lists]));
 
-    // Return the deleted task for confirmation
     return {
-      result: {
-        list: {
-          name: "Build something awesome with Cloudflare Workers",
-          slug: listSlug,
-          description: "Lorem Ipsum",
-          completed: true,
-          due_date: "2022-12-24",
-        },
-      },
       success: true,
+      list: lists[listIndex],
     };
   }
 }

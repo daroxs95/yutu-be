@@ -1,9 +1,19 @@
-import { DateTime, Str } from "@cloudflare/itty-router-openapi";
+import {Str, Arr} from "@cloudflare/itty-router-openapi";
+
+export const Video = {
+  name: new Str({example: "lorem"}),
+  url: String,
+};
 
 export const List = {
-	name: new Str({ example: "lorem" }),
-	slug: String,
-	description: new Str({ required: false }),
-	completed: Boolean,
-	due_date: new DateTime(),
+  name: new Str({example: "lorem"}),
+  slug: String,
+  videos: new Arr(Video),
 };
+
+export const ListUpdate = {
+  name: new Str({example: "lorem"}),
+  videos: new Arr(Video),
+};
+
+export type ListType = typeof List;

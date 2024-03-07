@@ -1,3 +1,6 @@
 name = "yutu-be"
 main = "src/index.ts"
 compatibility_date = "2024-03-04"
+kv_namespaces = [
+    { binding = "KV", id = "b5b0b54805ed44a6969a7825196424d6" }
+]

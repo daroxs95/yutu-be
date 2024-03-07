@@ -1,66 +1,47 @@
 import {
-	OpenAPIRoute,
-	OpenAPIRouteSchema,
-	Query,
+  OpenAPIRoute,
+  OpenAPIRouteSchema,
+  Query,
 } from "@cloudflare/itty-router-openapi";
-import { List } from "../types";
+import {List} from "../types";
 
 export class ListList extends OpenAPIRoute {
-	static schema: OpenAPIRouteSchema = {
-		tags: ["Lists"],
-		summary: "List lists",
-		parameters: {
-			page: Query(Number, {
-				description: "Page number",
-				default: 0,
-			}),
-			isCompleted: Query(Boolean, {
-				description: "Filter by completed flag",
-				required: false,
-			}),
-		},
-		responses: {
-			"200": {
-				description: "Returns a list of Lists",
-				schema: {
-					success: Boolean,
-					result: {
-						tasks: [List],
-					},
-				},
-			},
-		},
-	};
+  static schema: OpenAPIRouteSchema = {
+    tags: ["Lists"],
+    summary: "List lists",
+    parameters: {
+      page: Query(Number, {
+        description: "Page number",
+        default: 0,
+      }),
+    },
+    responses: {
+      "200": {
+        description: "Returns a list of Lists",
+        schema: {
+          success: Boolean,
+          result: {
+            tasks: [List],
+          },
+        },
+      },
+    },
+  };
 
-	async handle(
-		request: Request,
-		env: any,
-		context: any,
-		data: Record<string, any>
-	) {
-		// Retrieve the validated parameters
-		const { page, isCompleted } = data.query;
+  async handle(
+    request: Request,
+    env: any,
+    context: any,
+    data: Record<string, any>
+  ) {
+    // Retrieve the validated parameters
+    const {page} = data.query;
 
-		// Implement your own object list here
+    const lists = JSON.parse(await env.KV.get("lists"));
 
-		return {
-			success: true,
-			tasks: [
-				{
-					name: "Clean my room",
-					slug: "clean-room",
-					description: null,
-					completed: false,
-					due_date: "2025-01-05",
-				},
-				{
-					name: "Build something awesome with Cloudflare Workers",
-					slug: "cloudflare-workers",
-					description: "Lorem Ipsum",
-					completed: true,
-					due_date: "2022-12-24",
-				},
-			],
-		};
-	}
+    return {
+      success: true,
+      lists: lists.slice(page * 10, page * 10 + 10),
+    };
+  }
 }
