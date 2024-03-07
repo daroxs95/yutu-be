@@ -4,6 +4,7 @@ import {ListDelete} from "./endpoints/listDelete";
 import {ListFetch} from "./endpoints/listFetch";
 import {ListList} from "./endpoints/listList";
 import {ListUpdate} from "./endpoints/listUpdate";
+import {createCors} from 'itty-router';
 
 interface Env {
   KV: KVNamespace;
@@ -12,6 +13,9 @@ interface Env {
 export const router = OpenAPIRouter({
   docs_url: "/",
 });
+const {preflight, corsify} = createCors();
+
+router.all('*', preflight);
 
 router.get("/api/lists/", ListList);
 router.get("/api/lists/:listSlug/", ListFetch);
@@ -31,5 +35,7 @@ router.all("*", () =>
 );
 
 export default {
-  fetch: router.handle,
+  fetch: async (request, env, ctx) => {
+    return router.handle(request, env, ctx).then(corsify)
+  },
 };
