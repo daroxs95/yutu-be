@@ -9,6 +9,7 @@ export const List = {
   name: new Str({example: "lorem"}),
   slug: String,
   videos: new Arr(Video),
+  description: new Str({example: "lorem ipsum"}),
 };
 
 export const ListUpdate = {
