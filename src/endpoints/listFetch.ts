@@ -45,7 +45,7 @@ export class ListFetch extends OpenAPIRoute {
 
     // Implement your own object fetch here
     // For example, you can use KV to fetch the object
-    const lists = JSON.parse(await env.KV.get("lists"));
+    const lists = JSON.parse(await env.KV.get("lists") || "[]");
     const list = lists.find((list: ListType) => list.slug === listSlug)
 
     const exists = true;

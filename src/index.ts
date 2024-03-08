@@ -5,6 +5,7 @@ import {ListFetch} from "./endpoints/listFetch";
 import {ListList} from "./endpoints/listList";
 import {ListUpdate} from "./endpoints/listUpdate";
 import {createCors} from 'itty-router';
+import {ListAddVideo} from "./endpoints/listAddVideo";
 
 interface Env {
   KV: KVNamespace;
@@ -22,6 +23,7 @@ router.get("/api/lists/:listSlug/", ListFetch);
 router.post("/api/lists/", ListCreate);
 router.put("/api/lists/:listSlug/", ListUpdate);
 router.delete("/api/lists/:listSlug/", ListDelete);
+router.post("/api/lists/:listSlug/video/", ListAddVideo);
 
 // 404 for everything else
 router.all("*", () =>

@@ -31,7 +31,7 @@ export class ListCreate extends OpenAPIRoute {
     // Retrieve the validated request body
     const listToCreate = data.body;
 
-    const lists = JSON.parse(await env.KV.get("lists"));
+    const lists = JSON.parse(await env.KV.get("lists") || "[]");
     await env.KV.put("lists", JSON.stringify([...lists, listToCreate]));
 
     return {

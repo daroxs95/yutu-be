@@ -28,7 +28,7 @@ export class ListList extends OpenAPIRoute {
     data: Record<string, any>
   ) {
 
-    const lists = JSON.parse(await env.KV.get("lists"));
+    const lists = JSON.parse(await env.KV.get("lists") || "[]");
 
     return {
       success: true,

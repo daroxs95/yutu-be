@@ -2,18 +2,18 @@ import {
   OpenAPIRoute,
   OpenAPIRouteSchema, Path,
 } from "@cloudflare/itty-router-openapi";
-import {ListUpdate as ListUpdateRequest, List} from "../types";
+import {Video, List} from "../types";
 
-export class ListUpdate extends OpenAPIRoute {
+export class ListAddVideo extends OpenAPIRoute {
   static schema: OpenAPIRouteSchema = {
     tags: ["Lists"],
-    summary: "Update a list by slug",
+    summary: "Add a video to a list by slug",
     parameters: {
       listSlug: Path(String, {
         description: "List slug",
       }),
     },
-    requestBody: ListUpdateRequest,
+    requestBody: Video,
     responses: {
       "200": {
         description: "Returns the updated List",
@@ -36,7 +36,7 @@ export class ListUpdate extends OpenAPIRoute {
     const {listSlug} = data.params;
 
     // Retrieve the validated request body
-    const listData = data.body;
+    const videoData = data.body;
 
     const lists = JSON.parse(await env.KV.get("lists") || "[]");
     const listIndex = lists.findIndex((list: any) => list.slug === listSlug);
@@ -46,7 +46,7 @@ export class ListUpdate extends OpenAPIRoute {
         error: "List not found",
       };
     }
-    lists[listIndex] = {slug: listData.slug, ...listData};
+    lists[listIndex].videos.push(videoData);
     await env.KV.put("lists", JSON.stringify([...lists]));
 
     return {

@@ -36,7 +36,7 @@ export class ListDelete extends OpenAPIRoute {
     // Retrieve the validated slug
     const {listSlug} = data.params;
 
-    const lists = JSON.parse(await env.KV.get("lists"));
+    const lists = JSON.parse(await env.KV.get("lists") || "[]");
     const listIndex = lists.findIndex((list: ListType) => list.slug === listSlug);
     if (listIndex === -1) {
       return {
