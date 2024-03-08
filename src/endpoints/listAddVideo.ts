@@ -46,6 +46,12 @@ export class ListAddVideo extends OpenAPIRoute {
         error: "List not found",
       };
     }
+    if (lists[listIndex].videos.find((video: any) => video.id === videoData.id)) {
+      return {
+        success: false,
+        error: "Video already exists in list",
+      };
+    }
     lists[listIndex].videos.push(videoData);
     await env.KV.put("lists", JSON.stringify([...lists]));
 
