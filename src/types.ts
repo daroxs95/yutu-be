@@ -17,6 +17,7 @@ export const List = {
 export const ListUpdate = {
   name: new Str({example: "lorem"}),
   videos: new Arr(Video),
+  description: new Str({example: "lorem ipsum"}),
 };
 
 export type ListType = typeof List;
