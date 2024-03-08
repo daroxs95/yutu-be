@@ -14,7 +14,10 @@ interface Env {
 export const router = OpenAPIRouter({
   docs_url: "/",
 });
-const {preflight, corsify} = createCors();
+
+const {preflight, corsify} = createCors({
+  methods: ['GET', 'PATCH', 'POST', 'PUT', 'DELETE'],
+});
 
 router.all('*', preflight);
 
